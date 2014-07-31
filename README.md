@@ -7,7 +7,7 @@ You need to use Java 7+.
 
 ## Usage
 
-Download [agent7.jar](https://github.com/xitrum-framework/agen7/releases/download/v1.0/agent7-1.0.jar).
+Download [agent7.jar](https://github.com/xitrum-framework/agent7/releases/download/v1.0/agent7-1.0.jar).
 
 ```
 java -javaagent:path/to/agent7.jar [other options] <YourMainClass>
