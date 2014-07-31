@@ -13,10 +13,15 @@ Download [agent7.jar](https://github.com/xitrum-framework/agent7/releases/downlo
 java -javaagent:path/to/agent7.jar [other options] <YourMainClass>
 ```
 
+Whenever a .class file in the current working directory (or its subdirectories)
+changes, Agent7 will reload the corresponding class in all class loaders.
+
 ## DCEVM
 
 Agent7 can run with normal Java. But it is intended for use together with
 [DCEVM](https://github.com/dcevm/dcevm).
+
+> The Dynamic Code Evolution Virtual Machine (DCE VM) is a modification of the Java HotSpot(TM) VM that allows unlimited redefinition of loaded classes at runtime. The current hotswapping mechanism of the HotSpot(TM) VM allows only changing method bodies. Our enhanced VM allows adding and removing fields and methods as well as changes to the super types of a class.
 
 Although DCEVM supports advanced class changes, it itself doesn't reload classes.
 You need a javaagent like Agent7.
