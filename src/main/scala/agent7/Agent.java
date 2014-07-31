@@ -29,13 +29,14 @@ public class Agent {
   private static void initialize(String agentArgs, Instrumentation inst) {
     Agent.inst = inst;
 
+    // Monitor current working directory
     String currentWorkingDir = System.getProperty("user.dir");
     new ClassFileWatch(currentWorkingDir, new ClassFileWatch.OnClassModify() {
       public void onModify(Path classFilePath) {
         try {
           reloadClass(classFilePath);
         } catch (Exception e) {
-          System.out.println("Error reloading " + classFilePath + ": " + e.toString());
+          System.out.println("Error reloading " + classFilePath + ": " + e);
           e.printStackTrace();
         }
       }
@@ -77,11 +78,11 @@ public class Agent {
     byte[] bytes = readFile(fileName);
     for (Class<?> clazz : matches) {
       if (!className.equals(clazz.getName())) break;
-      doReload(clazz, fileName, bytes);
+      doReload(clazz, bytes);
     }
   }
 
-  private static void doReload(Class<?> clazz, String classFileName, byte[] classFileBytes) throws Exception {
+  private static void doReload(Class<?> clazz, byte[] classFileBytes) throws Exception {
     ClassDefinition definition = new ClassDefinition(clazz, classFileBytes);
     inst.redefineClasses(new ClassDefinition[] {definition});
   }
