@@ -24,7 +24,8 @@ Agent7 can run with normal Java. But it is intended for use together with
 > The Dynamic Code Evolution Virtual Machine (DCE VM) is a modification of the Java HotSpot(TM) VM that allows unlimited redefinition of loaded classes at runtime. The current hotswapping mechanism of the HotSpot(TM) VM allows only changing method bodies. Our enhanced VM allows adding and removing fields and methods as well as changes to the super types of a class.
 
 Although DCEVM supports advanced class changes, it itself doesn't reload classes.
-You need a javaagent like Agent7.
+You need a javaagent like Agent7 (IDEs like Eclipse and InteliJ act as javaagent,
+they can reload classes).
 
 You can install DCEVM in 2 ways:
 * [Patch](https://github.com/dcevm/dcevm/releases) your existing Java installation.
