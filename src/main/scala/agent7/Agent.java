@@ -32,12 +32,17 @@ public class Agent {
     String currentWorkingDir = System.getProperty("user.dir");
     new ClassFileWatch(currentWorkingDir, new ClassFileWatch.OnClassModify() {
       public void onModify(Path classFilePath) {
-        redefineClass(classFilePath);
+        try {
+          reloadClass(classFilePath);
+        } catch (Exception e) {
+          System.out.println("Error reloading " + classFilePath + ": " + e.toString());
+          e.printStackTrace();
+        }
       }
     });
   }
 
-  private static void redefineClass(Path classFilePath) {
+  private static void reloadClass(Path classFilePath) throws Exception {
     String fileName      = classFilePath.toString();
     String withoutExt    = fileName.substring(0, fileName.length() - ".class".length());
     String classNameLike = withoutExt.replace(File.separatorChar, '.');
@@ -65,17 +70,20 @@ public class Agent {
         return length2 - length1;
       }
     });
-    Class<?> clazz = matches.get(0);
+    String className = matches.get(0).getName();
 
-    // Actually reload
-    try {
-      ClassDefinition definition = new ClassDefinition(clazz, readFile(fileName));
-      inst.redefineClasses(new ClassDefinition[] {definition});
-      System.out.println("Reloaded: " + clazz.getName());
-    } catch (Exception e) {
-      System.out.println("Error reloading " + clazz.getName() + "(" + fileName + "): " + e.toString());
-      e.printStackTrace();
+    // Actually reload; one class may be loaded by multiple class loaders
+    System.out.println("Reload: " + className);
+    byte[] bytes = readFile(fileName);
+    for (Class<?> clazz : matches) {
+      if (!className.equals(clazz.getName())) break;
+      doReload(clazz, fileName, bytes);
     }
+  }
+
+  private static void doReload(Class<?> clazz, String classFileName, byte[] classFileBytes) throws Exception {
+    ClassDefinition definition = new ClassDefinition(clazz, classFileBytes);
+    inst.redefineClasses(new ClassDefinition[] {definition});
   }
 
   private static byte[] readFile(String path) throws Exception {
