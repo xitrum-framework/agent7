@@ -123,15 +123,15 @@ class ClassFileWatch {
     return (WatchEvent<T>) event;
   }
 
-//http://stackoverflow.com/questions/9588737/is-java-7-watchservice-slow-for-anyone-else
- // http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/7-b147/com/sun/nio/file/SensitivityWatchEventModifier.java
- private Modifier get_com_sun_nio_file_SensitivityWatchEventModifier_HIGH() {
-   try {
-     Class<?> c = Class.forName("com.sun.nio.file.SensitivityWatchEventModifier");
-     Field    f = c.getField("HIGH");
-     return (Modifier) f.get(c);
-   } catch (Exception e) {
-     return null;
-   }
- }
+  //http://stackoverflow.com/questions/9588737/is-java-7-watchservice-slow-for-anyone-else
+  // http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/7-b147/com/sun/nio/file/SensitivityWatchEventModifier.java
+  private Modifier get_com_sun_nio_file_SensitivityWatchEventModifier_HIGH() {
+    try {
+      Class<?> c = Class.forName("com.sun.nio.file.SensitivityWatchEventModifier");
+      Field    f = c.getField("HIGH");
+      return (Modifier) f.get(c);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }
