@@ -1,11 +1,8 @@
 organization := "tv.cntt"
-
 name         := "agent7"
-
 version      := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.4"
-
+scalaVersion     := "2.11.7"
 autoScalaLibrary := false
 
 // Do not append Scala versions to the generated artifacts
@@ -15,7 +12,6 @@ javacOptions ++= Seq("-Xlint:deprecation")
 
 // File watch API in Java 7+ is used
 scalacOptions += "-target:jvm-1.7"
-
 javacOptions ++= Seq("-source", "1.7", "-target", "1.7")
 
 // Add tools.jar to classpath
